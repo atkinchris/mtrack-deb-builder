@@ -9,14 +9,9 @@ RUN apt-get update -yqq && apt-get install -yqq \
     xserver-xorg-dev \
     && rm -rf /var/lib/apt/lists/*
 
-VOLUME ["/mnt/output"]
+VOLUME /tmp/output
+WORKDIR /tmp
 
-CMD cd /tmp && \
-    git clone https://github.com/p2rkw/xf86-input-mtrack.git --depth=1 && \
-    cd xf86-input-mtrack && \
-    ./configure --prefix=/usr && \
-    dpkg-buildpackage && \
-    cd .. && \
-    mv *.deb /mnt/output/ && \
-    echo "***OUTPUT BELOW THIS LINE***" && \
-    ls /mnt/output
+ADD ./build.sh /tmp/
+
+CMD sh ./build.sh && mv *.deb /tmp/output

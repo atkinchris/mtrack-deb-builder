@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: atkinchris/mtrack-builder:latest
+    steps:
+      - checkout
+      - run: make build-ci
+      - store_artifacts:
+          path: /tmp/output
+          destination: builds
